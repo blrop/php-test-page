@@ -1,11 +1,14 @@
 * {
     box-sizing: border-box;
 }
+
 html, body {
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
     height: 100%;
 }
+
 #editor {
     margin: 0;
     position: absolute;
@@ -18,29 +21,35 @@ html, body {
     padding: 0;
     font-size: 14px;
 }
+
 #editor-wrapper {
     height: 60%;
     width: 50%;
     position: relative;
     float: left;
 }
+
 .error-log-wrapper {
     float: left;
     width: 50%;
     height: 60%;
 }
+
 .col-2 {
     float: left;
     width: 50%;
 }
-#execute-form {
+
+.execute-button-wrapper {
     padding: 10px;
     background: #ccc;
 }
+
 .log-button-wrapper {
     background: #ddd;
     padding: 10px;
 }
+
 textarea {
     border: none;
     width: 100%;
@@ -50,19 +59,30 @@ textarea {
     font-size: 12px;
     background: #ccc;
 }
+
 button {
     background: #aaa;
     border: 1px solid #999;
     cursor: pointer;
     padding: 5px 25px;
 }
+
 button:hover {
     background: #ccc;
 }
+
 #output {
     padding: 15px;
-    font-family: 'Monospace';
+    font-family: monospace;
 }
+
 .clear {
     clear: both;
+}
+
+#server-error-indicator {
+    color: red;
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: middle;
 }

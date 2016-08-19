@@ -1,22 +1,49 @@
 <?php
 
-$LOG_LOCATION = '/home/hosts/logs/main-error.log';
+define('LOG_LOCATION', '/home/hosts/logs/main-error.log');
 
-$code = '';
-$output = '';
+class Log
+{
+    public static function get()
+    {
+        return file_get_contents(LOG_LOCATION);
+    }
 
-switch (@$_REQUEST['action']) {
+    public static function clear()
+    {
+        file_put_contents(LOG_LOCATION, '');
+    }
+}
+
+$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
+
+switch ($action) {
     case 'execute':
+        // выполняем присланный код
         $code = $_POST['code'];
         $code = str_replace('<?php', '', $code);
         ob_start();
-        eval($code);
-        $output = ob_get_clean();
-        break;
-    case 'clear-log':
-        file_put_contents($LOG_LOCATION, '');
-        break;
-}
-$log = file_get_contents($LOG_LOCATION);
+        try {
+            eval($code);
+        } finally {
+            $code_output = ob_get_clean();
+        }
 
-require 'tpl.php';
+        echo json_encode([
+            'log' => Log::get(),
+            'codeOutput' => $code_output
+        ]);
+        break;
+
+    case 'clear-log':
+        Log::clear();
+        break;
+
+    case 'get-log':
+        echo Log::get();
+        break;
+
+    default:
+        $TPL['log'] = Log::get();
+        require 'tpl.php';
+}
