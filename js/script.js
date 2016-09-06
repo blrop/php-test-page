@@ -13,29 +13,20 @@ $(function() {
         });
     }
 
-    var logField = $("#log"),
-        serverErrorIndicator = $('#server-error-indicator'),
-        codeOutput = $("#output");
+    function clearLog() {
+        $.ajax({
+            url: window.location.href,
+            data: {
+                action: 'clear-log'
+            },
+            method: 'post',
+            success: function() {
+                logField.val('');
+            }
+        });
+    }
 
-    // прокручиваем поле лога в конец
-    logField.scrollTop(logField[0].scrollHeight);
-
-    // запускаем AceEditor
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/twilight");
-    editor.session.setMode("ace/mode/php");
-    editor.on('change', function() {
-        // сохраняем код при его редактировании
-        var code = editor.getSession().getValue();
-        localStorage.setItem('aceCode', code);
-    });
-
-    // загружаем введённый ранее код
-    var savedCode = localStorage.getItem('aceCode') || ('<' + '?php\n');
-    editor.getSession().setValue(savedCode);
-
-    // клик по кнопке "Выполнить"
-    $("#execute-code").click(function() {
+    function executeCode() {
         $.ajax({
             url: window.location.href,
             method: 'post',
@@ -54,19 +45,45 @@ $(function() {
                 updateLog(); // в случае ошибки сервер не вернёт лог, поэтому запрашиваем его отдельно
             }
         });
+    }
+
+    var logField = $("#log"),
+        serverErrorIndicator = $('#server-error-indicator'),
+        codeOutput = $("#output");
+
+    // прокручиваем поле лога в конец
+    logField.scrollTop(logField[0].scrollHeight);
+
+    // запускаем AceEditor
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/php");
+    editor.on('change', function(data) {
+        // сохраняем код при его редактировании
+        var code = editor.getSession().getValue();
+        localStorage.setItem('aceCode', code);
     });
 
+    // загружаем введённый ранее код
+    var savedCode = localStorage.getItem('aceCode') || ('<' + '?php\n');
+    editor.getSession().setValue(savedCode);
+
+    // клик по кнопке "Выполнить"
+    $("#execute-code").click(executeCode);
+
     // клик по кнопке "очистить лог"
-    $("#clear-log").click(function() {
-        $.ajax({
-            url: window.location.href,
-            data: {
-                action: 'clear-log'
-            },
-            method: 'post',
-            success: function() {
-                logField.val('');
-            }
-        });
+    $("#clear-log").click(clearLog);
+
+    // хоткеи
+    $(window).keydown(function(e) {
+        switch(e.which) {
+            case 120: // запуск кода (F9)
+                executeCode();
+                break;
+
+            case 27: // очистка логов (Esc)
+                clearLog();
+                break;
+        }
     });
 });

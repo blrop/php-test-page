@@ -17,11 +17,11 @@
         <textarea id="log" readonly><?=$TPL['log']?></textarea>
     </div>
     <div class="col-2 execute-button-wrapper">
-        <button type="submit" id="execute-code">Выполнить</button>
+        <button type="submit" id="execute-code">Выполнить <b>(F9)</b></button>
         <div id="server-error-indicator" style="display: none;">Ошибка сервера</div>
     </div>
     <div class="col-2 log-button-wrapper">
-        <button id="clear-log">Очистить лог</button>
+        <button id="clear-log">Очистить лог <b>(Esc)</b></button>
     </div>
     <div class="clear"></div>
 
