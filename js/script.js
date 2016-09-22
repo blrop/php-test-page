@@ -66,7 +66,8 @@ $(function() {
 
     // загружаем введённый ранее код
     var savedCode = localStorage.getItem('aceCode') || ('<' + '?php\n');
-    editor.getSession().setValue(savedCode);
+    editor.session.setValue(savedCode);
+    editor.session.setUseWrapMode(true);
 
     // клик по кнопке "Выполнить"
     $("#execute-code").click(executeCode);
