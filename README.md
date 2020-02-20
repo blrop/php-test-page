@@ -1,11 +1,17 @@
 # php-test-page
-Страничка для запуска php кода из браузера
+This is a kind of **local** "codepen" page for php. 
 
-Возможности:
+:warning: **Warning!** :warning: 
+
+The code is executed with webserver rights that's why this app is intended for using on **a local environment only**. 
+
+
+### Features:
 - ace editor
-- просмотр лога ошибок и его очистка нажатием кнопки
-- автосохранение написанного кода в localStorage
+- error log view and ability to clear it by button click
+- code auto saving to the browser's localStarage
 
-Установка:
-1. Скопируйте файлы в любую папку вебсервера
-2. Измените значение переменной $LOG_LOCATION в файле index.php
+
+### Installation:
+1. Copy all files to any directory of your webserver
+2. Change the **$LOG_LOCATION** variable in the **index.php** file so that it refers to the logs directory of your webserver
